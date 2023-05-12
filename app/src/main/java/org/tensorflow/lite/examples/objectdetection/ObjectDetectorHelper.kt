@@ -74,7 +74,13 @@ class ObjectDetectorHelper(
   var currentDelegate: Int = 0,
   var currentModel: Int = 0,
   val context: Context,
+  private var lastResults: MutableList<Detection>? = null,
+  private var lastInferenceTime: Long = 0,
+  private var lastImageHeight: Int = 0,
+  private var lastImageWidth: Int = 0,
+
   val objectDetectorListener: DetectorListener?
+
 ) {
 
     // For this example this needs to be a var so it can be reset on changes. If the ObjectDetector
@@ -95,6 +101,11 @@ class ObjectDetectorHelper(
     fun clearObjectDetector() {
         objectDetector = null
     }
+
+    fun getResults(): Triple<MutableList<Detection>?, Long, Pair<Int, Int>> {
+        return Triple(lastResults, lastInferenceTime, Pair(lastImageHeight, lastImageWidth))
+    }
+
 
     // Initialize the object detector using current settings on the
     // thread that is using it. CPU and NNAPI delegates can be used with detectors
@@ -176,6 +187,10 @@ class ObjectDetectorHelper(
             inferenceTime,
             tensorImage.height,
             tensorImage.width)
+        lastResults = results
+        lastInferenceTime = inferenceTime
+        lastImageHeight = tensorImage.height
+        lastImageWidth = tensorImage.width
     }
 
 
@@ -207,9 +222,30 @@ class ObjectDetectorHelper(
             val bitmap = image.imageToBitmap() // Use the extension function
 
             helper.detect(bitmap, rotationDegrees)
+            val (results, _, imageSize) = helper.getResults()
+            val (imageHeight, imageWidth) = imageSize
+
+            results?.forEach { detection ->
+                val boundingBox = detection.boundingBox
+                val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
+                val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
+
+                // 화면 중앙 좌표 계산
+                val screenCenterX = imageWidth.toFloat() / 2f
+                val screenCenterY = imageHeight.toFloat() / 2f
+
+                // 객체가 중앙에서 벗어난 경우 이동해야 하는 값을 계산
+                val deltaX = screenCenterX - objectCenterX
+                val deltaY = screenCenterY - objectCenterY
+
+                // 이동해야 하는 값을 전송
+                helper.objectDetectorListener?.onObjectCenterDelta(deltaX, deltaY)
+            }
 
             imageProxy.close()
         }
+
+
     }
 
 
@@ -231,13 +267,11 @@ class ObjectDetectorHelper(
 
     interface DetectorListener {
         fun onError(error: String)
-        fun onResults(
-          results: MutableList<Detection>?,
-          inferenceTime: Long,
-          imageHeight: Int,
-          imageWidth: Int
-        )
+        fun onResults(results: MutableList<Detection>?, inferenceTime: Long, imageHeight: Int, imageWidth: Int)
+        fun onObjectCenterDelta(deltaX: Float, deltaY: Float)
     }
+
+
 
     companion object {
         const val DELEGATE_CPU = 0

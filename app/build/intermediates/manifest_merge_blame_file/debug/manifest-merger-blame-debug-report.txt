@@ -22,27 +22,27 @@
 22
 23    <uses-sdk
 24        android:minSdkVersion="21"
-24-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml
+24-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 25        android:targetSdkVersion="33" />
-25-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml
+25-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 26
 27    <!-- Enable instant app support -->
 28    <dist:module dist:instant="true" />
-28-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:23:5-40
-28-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:23:18-37
+28-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:23:5-40
+28-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:23:18-37
 29
 30    <!-- Declare features -->
 31    <uses-feature android:name="android.hardware.camera" />
-31-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:26:5-60
-31-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:26:19-57
+31-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:26:5-60
+31-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:26:19-57
 32
 33    <!-- Declare permissions -->
 34    <uses-permission android:name="android.permission.CAMERA" />
-34-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:29:5-65
-34-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:29:22-62
+34-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:29:5-65
+34-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:29:22-62
 35    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-35-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:30:5-71
-35-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:30:22-68
+35-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:30:5-71
+35-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:30:22-68
 36
 37    <permission
 37-->[androidx.core:core:1.10.0] /Users/kimjuyoung/.gradle/caches/transforms-3/cccdfed6542b319c3d0a571760cb9a18/transformed/core-1.10.0/AndroidManifest.xml:22:5-24:47
@@ -59,59 +59,59 @@
 44    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 45
 46    <application
-46-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:32:5-62:19
+46-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:32:5-62:19
 47        android:allowBackup="true"
-47-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:36:9-35
+47-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:36:9-35
 48        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 48-->[androidx.core:core:1.10.0] /Users/kimjuyoung/.gradle/caches/transforms-3/cccdfed6542b319c3d0a571760cb9a18/transformed/core-1.10.0/AndroidManifest.xml:28:18-86
 49        android:debuggable="true"
 50        android:icon="@mipmap/ic_launcher"
-50-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:33:9-43
+50-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:33:9-43
 51        android:label="@string/app_name"
-51-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:35:9-41
+51-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:35:9-41
 52        android:roundIcon="@mipmap/ic_launcher_round"
-52-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:34:9-54
+52-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:34:9-54
 53        android:taskAffinity=""
-53-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:37:9-32
+53-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:37:9-32
 54        android:testOnly="true" >
 55        <activity
-55-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:40:9-60:20
+55-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:40:9-60:20
 56            android:name="org.tensorflow.lite.examples.objectdetection.MainActivity"
-56-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:41:13-41
+56-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:41:13-41
 57            android:clearTaskOnLaunch="true"
-57-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:42:13-45
+57-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:42:13-45
 58            android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
-58-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:48:13-91
+58-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:48:13-91
 59            android:exported="true"
-59-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:44:13-36
+59-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:44:13-36
 60            android:icon="@mipmap/ic_launcher"
-60-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:45:13-47
+60-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:45:13-47
 61            android:resizeableActivity="true"
-61-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:47:13-46
+61-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:47:13-46
 62            android:rotationAnimation="seamless"
-62-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:46:13-49
+62-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:46:13-49
 63            android:theme="@style/AppTheme" >
-63-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:43:13-44
+63-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:43:13-44
 64
 65            <!-- Main app intent filter -->
 66            <intent-filter>
-66-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:52:13-55:29
+66-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:52:13-55:29
 67                <action android:name="android.intent.action.MAIN" />
-67-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:53:17-69
-67-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:53:25-66
+67-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:53:17-69
+67-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:53:25-66
 68
 69                <category android:name="android.intent.category.LAUNCHER" />
-69-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:54:17-77
-69-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:54:27-74
+69-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:54:17-77
+69-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:54:27-74
 70            </intent-filter>
 71
 72            <!-- Declare notch support -->
 73            <meta-data
-73-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:58:13-83
+73-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:58:13-83
 74                android:name="android.notch_support"
-74-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:58:24-60
+74-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:58:24-60
 75                android:value="true" />
-75-->/Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/AndroidManifest.xml:58:61-81
+75-->/Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:58:61-81
 76        </activity>
 77
 78        <service

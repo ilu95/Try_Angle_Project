@@ -51,11 +51,11 @@ org.tensorflow.lite.examples.objectdetection.app-navigation-common-ktx-2.5.3-49 
 org.tensorflow.lite.examples.objectdetection.app-fragment-1.5.4-50 /Users/kimjuyoung/.gradle/caches/transforms-3/eddf22646b8497d2a8aef74c55363142/transformed/fragment-1.5.4/res
 org.tensorflow.lite.examples.objectdetection.app-jetified-emoji2-1.2.0-51 /Users/kimjuyoung/.gradle/caches/transforms-3/ee88c988d2b759349e5107aca93da8ce/transformed/jetified-emoji2-1.2.0/res
 org.tensorflow.lite.examples.objectdetection.app-transition-1.4.1-52 /Users/kimjuyoung/.gradle/caches/transforms-3/f8b812b6599225d75924f84f5ba6c7c1/transformed/transition-1.4.1/res
-org.tensorflow.lite.examples.objectdetection.app-pngs-53 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/generated/res/pngs/debug
-org.tensorflow.lite.examples.objectdetection.app-resValues-54 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/generated/res/resValues/debug
-org.tensorflow.lite.examples.objectdetection.app-rs-55 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/generated/res/rs/debug
-org.tensorflow.lite.examples.objectdetection.app-mergeDebugResources-56 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
-org.tensorflow.lite.examples.objectdetection.app-mergeDebugResources-57 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
-org.tensorflow.lite.examples.objectdetection.app-merged_res-58 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/build/intermediates/merged_res/debug
-org.tensorflow.lite.examples.objectdetection.app-debug-59 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/debug/res
-org.tensorflow.lite.examples.objectdetection.app-main-60 /Users/kimjuyoung/StudioProjects/Final_project/android 2/app/src/main/res
+org.tensorflow.lite.examples.objectdetection.app-pngs-53 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/generated/res/pngs/debug
+org.tensorflow.lite.examples.objectdetection.app-resValues-54 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/generated/res/resValues/debug
+org.tensorflow.lite.examples.objectdetection.app-rs-55 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/generated/res/rs/debug
+org.tensorflow.lite.examples.objectdetection.app-mergeDebugResources-56 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+org.tensorflow.lite.examples.objectdetection.app-mergeDebugResources-57 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+org.tensorflow.lite.examples.objectdetection.app-merged_res-58 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/build/intermediates/merged_res/debug
+org.tensorflow.lite.examples.objectdetection.app-debug-59 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/debug/res
+org.tensorflow.lite.examples.objectdetection.app-main-60 /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/res

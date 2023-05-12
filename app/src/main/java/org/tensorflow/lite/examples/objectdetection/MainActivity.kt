@@ -18,22 +18,80 @@ package org.tensorflow.lite.examples.objectdetection
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import org.tensorflow.lite.examples.objectdetection.databinding.ActivityMainBinding
+import org.tensorflow.lite.task.vision.detector.Detection
+import kotlin.math.abs
+import android.widget.Toast
+
 
 /**
  * Main entry point into our app. This app follows the single-activity pattern, and all
  * functionality is implemented in the form of fragments.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener  {
+    private lateinit var objectDetectorHelper: ObjectDetectorHelper
 
     private lateinit var activityMainBinding: ActivityMainBinding
 
+    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
+        // 여기에서 deltaX, deltaY를 처리하십시오.
+        // 이동 거리의 임계값을 설정합니다.
+        val threshold = 0f
+
+        // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
+        if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
+            runOnUiThread {
+                Toast.makeText(this, "객체가 크게 이동했습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
+        Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
+    }
+
+    @androidx.camera.core.ExperimentalGetImage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        // ObjectDetectorHelper 인스턴스 생성
+        objectDetectorHelper = ObjectDetectorHelper(
+            context = this,
+            objectDetectorListener = this
+        )
+
+        // 카메라 프로바이더 인스턴스 가져오기
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+
+            // 카메라 선택자 설정
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            // 카메라 및 객체 탐지 기능 실행
+            objectDetectorHelper.analyzeImage(cameraProvider, cameraSelector, this)
+        }, ContextCompat.getMainExecutor(this))
     }
+
+    override fun onError(error: String) {
+        // Handle error
+    }
+
+    override fun onResults(results: MutableList<Detection>?, inferenceTime: Long, imageHeight: Int, imageWidth: Int) {
+        // 객체가 중앙에서 얼마나 벗어났는지 출력
+        results?.firstOrNull()?.let { detection ->
+            val deltaX = (detection.boundingBox.centerX() - (imageWidth / 2)) / imageWidth.toFloat()
+            val deltaY = (detection.boundingBox.centerY() - (imageHeight / 2)) / imageHeight.toFloat()
+            onObjectCenterDelta(deltaX, deltaY) // 이 코드로 변경
+        }
+    }
+
+
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {

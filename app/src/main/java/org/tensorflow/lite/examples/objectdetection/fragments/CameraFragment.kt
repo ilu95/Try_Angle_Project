@@ -65,6 +65,13 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
+
+    // 이 메서드를 CameraFragment 클래스에 추가합니다.
+    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
+        // 여기에 원하는 기능을 구현합니다.
+        // 예를 들어, 객체의 중심이 움직인 거리를 로깅하거나 다른 작업을 수행할 수 있습니다.
+    }
+
     // Helper function to compute aspect ratio
     private fun aspectRatio(width: Int, height: Int): Size {
         val gcd = gcd(width, height)
@@ -109,6 +116,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         return fragmentCameraBinding.root
     }
 
+    @androidx.camera.core.ExperimentalGetImage
     @SuppressLint("MissingPermission")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -225,6 +233,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     }
 
     // Initialize CameraX, and prepare to bind the camera use cases
+    @androidx.camera.core.ExperimentalGetImage
     private fun setUpCamera() {
         val aspectRatio = aspectRatio(fragmentCameraBinding.viewFinder.width, fragmentCameraBinding.viewFinder.height)
 
