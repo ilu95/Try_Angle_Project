@@ -38,20 +38,53 @@ class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener 
 
     private lateinit var activityMainBinding: ActivityMainBinding
 
-    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
-        // 여기에서 deltaX, deltaY를 처리하십시오.
-        // 이동 거리의 임계값을 설정합니다.
-        val threshold = 0f
+//    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
+//        // 여기에서 deltaX, deltaY를 처리하십시오.
+//        Log.d("MainActivity", "Delta X: $deltaX, Delta Y: $deltaY")
+//        // 이동 거리의 임계값을 설정합니다.
+//        val threshold = 0.1f
+//
+//        // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
+//        if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
+//            runOnUiThread {
+//                Toast.makeText(applicationContext, "객체가 크게 이동했습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
+//        Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
+//    }
+override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
+    // 여기에서 deltaX, deltaY를 처리하십시오.
+    Log.d("MainActivity", "onObjectCenterDelta called")
+    // 이동 거리의 임계값을 설정합니다.
+    val threshold = 0.1f
 
-        // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
-        if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
-            runOnUiThread {
-                Toast.makeText(this, "객체가 크게 이동했습니다.", Toast.LENGTH_SHORT).show()
+    // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
+    if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
+        val deltaXPercentage = (deltaX * 100).toInt()
+        val deltaYPercentage = (deltaY * 100).toInt()
+        Toast.makeText(applicationContext, "객체가 중앙에서 벗어남: X축: $deltaXPercentage%, Y축: $deltaYPercentage%", Toast.LENGTH_SHORT).show()
+    }
+    // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
+    Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
+}
+
+
+    override fun onObjectDetected(detected: Boolean) {
+        runOnUiThread {
+            if (detected) {
+                Toast.makeText(applicationContext, "Object Detected", Toast.LENGTH_SHORT).show()
             }
         }
-        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
-        Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
     }
+
+
+    override fun onObjectCentered(isCentered: Boolean) {
+        // 객체가 중앙에 있는지 여부를 처리하십시오.
+        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
+        Log.d("ObjectCentered", "Is object centered: $isCentered")
+    }
+
 
     @androidx.camera.core.ExperimentalGetImage
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,11 +116,14 @@ class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener 
     }
 
     override fun onResults(results: MutableList<Detection>?, inferenceTime: Long, imageHeight: Int, imageWidth: Int) {
+        Log.d("MainActivity", "onResults called")
         // 객체가 중앙에서 얼마나 벗어났는지 출력
         results?.firstOrNull()?.let { detection ->
             val deltaX = (detection.boundingBox.centerX() - (imageWidth / 2)) / imageWidth.toFloat()
             val deltaY = (detection.boundingBox.centerY() - (imageHeight / 2)) / imageHeight.toFloat()
-            onObjectCenterDelta(deltaX, deltaY) // 이 코드로 변경
+
+            // 여기에서 onObjectCenterDelta 메소드를 호출하십시오.
+            onObjectCenterDelta(deltaX, deltaY)
         }
     }
 

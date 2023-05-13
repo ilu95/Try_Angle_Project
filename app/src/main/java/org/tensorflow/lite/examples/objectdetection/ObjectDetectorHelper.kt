@@ -21,7 +21,6 @@ import android.os.SystemClock
 import android.util.Log
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.support.image.ImageProcessor
-import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.Rot90Op
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.detector.Detection
@@ -44,6 +43,9 @@ import androidx.lifecycle.LifecycleOwner
 
 import androidx.camera.core.ImageProxy
 //import androidx.camera.core.ExperimentalGetImage
+import kotlin.math.abs
+import org.tensorflow.lite.support.image.TensorImage
+
 
 object ImageUtils {
     fun imageToNV21(image: Image): ByteArray {
@@ -79,7 +81,9 @@ class ObjectDetectorHelper(
   private var lastImageHeight: Int = 0,
   private var lastImageWidth: Int = 0,
 
-  val objectDetectorListener: DetectorListener?
+  val objectDetectorListener: DetectorListener?,
+  private val centerThreshold: Float = 50f
+
 
 ) {
 
@@ -96,6 +100,7 @@ class ObjectDetectorHelper(
         imageAnalysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
+
     }
 
     fun clearObjectDetector() {
@@ -182,11 +187,35 @@ class ObjectDetectorHelper(
 
         val results = objectDetector?.detect(tensorImage)
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+
+
         objectDetectorListener?.onResults(
             results,
             inferenceTime,
             tensorImage.height,
             tensorImage.width)
+
+
+        // Check if the detections list is not empty before accessing the first object
+        if (results != null && results.isNotEmpty()) {
+            val screenCenterX = tensorImage.width.toFloat() / 2f
+            val screenCenterY = tensorImage.height.toFloat() / 2f
+
+            val detectedObject = results[0]
+            val boundingBox = detectedObject.boundingBox
+            val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
+            val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
+
+            val deltaX = screenCenterX - objectCenterX
+            val deltaY = screenCenterY - objectCenterY
+
+            // Check if the object is centered within the threshold
+            val isCentered = abs(deltaX) <= centerThreshold && abs(deltaY) <= centerThreshold
+            objectDetectorListener?.onObjectCentered(isCentered)
+
+        }
+
+
         lastResults = results
         lastInferenceTime = inferenceTime
         lastImageHeight = tensorImage.height
@@ -225,7 +254,7 @@ class ObjectDetectorHelper(
             val (results, _, imageSize) = helper.getResults()
             val (imageHeight, imageWidth) = imageSize
 
-            results?.forEach { detection ->
+            results?.firstOrNull()?.let { detection ->
                 val boundingBox = detection.boundingBox
                 val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
                 val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
@@ -238,12 +267,16 @@ class ObjectDetectorHelper(
                 val deltaX = screenCenterX - objectCenterX
                 val deltaY = screenCenterY - objectCenterY
 
-                // 이동해야 하는 값을 전송
-                helper.objectDetectorListener?.onObjectCenterDelta(deltaX, deltaY)
+                // 임계값 확인 후 이동해야 하는 값을 전송
+                if (abs(deltaX) > helper.centerThreshold || abs(deltaY) > helper.centerThreshold) {
+                    Log.d("Test", "Calling onObjectCenterDelta: deltaX=$deltaX, deltaY=$deltaY")
+                    helper.objectDetectorListener?.onObjectCenterDelta(deltaX, deltaY)
+                }
             }
 
             imageProxy.close()
         }
+
 
 
     }
@@ -253,8 +286,13 @@ class ObjectDetectorHelper(
     fun analyzeImage(
         cameraProvider: ProcessCameraProvider,
         cameraSelector: CameraSelector,
-        lifecycleOwner: LifecycleOwner
+        lifecycleOwner: LifecycleOwner,
     ) {
+        val imageAnalysis = ImageAnalysis.Builder()
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+
+        // AnnotatedImageAnalyzer를 사용하도록 변경
         imageAnalysis.setAnalyzer(cameraExecutor, AnnotatedImageAnalyzer(this))
 
         cameraProvider.unbindAll()
@@ -265,11 +303,16 @@ class ObjectDetectorHelper(
 
 
 
+
     interface DetectorListener {
         fun onError(error: String)
         fun onResults(results: MutableList<Detection>?, inferenceTime: Long, imageHeight: Int, imageWidth: Int)
         fun onObjectCenterDelta(deltaX: Float, deltaY: Float)
+        fun onObjectDetected(detected: Boolean) // 이 줄을 추가하세요
+        fun onObjectCentered(isCentered: Boolean)
     }
+
+
 
 
 

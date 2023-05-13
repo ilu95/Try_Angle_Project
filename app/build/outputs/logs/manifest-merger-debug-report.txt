@@ -63,6 +63,7 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.1.0] /Users/
 MERGED from [org.tensorflow:tensorflow-lite-task-vision:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d0069a1c6cc9386a52d14dfee77b5445/transformed/jetified-tensorflow-lite-task-vision-0.4.0/AndroidManifest.xml:2:1-9:12
 MERGED from [org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/7b7aa7ec1c5adb3626b60172596fbc78/transformed/jetified-tensorflow-lite-gpu-delegate-plugin-0.4.0/AndroidManifest.xml:2:1-6:12
 MERGED from [org.tensorflow:tensorflow-lite-gpu:2.9.0] /Users/kimjuyoung/.gradle/caches/transforms-3/1fd29f98913ade52b88c0ef4db7f460f/transformed/jetified-tensorflow-lite-gpu-2.9.0/AndroidManifest.xml:2:1-12:12
+MERGED from [org.tensorflow:tensorflow-lite-support:0.2.0] /Users/kimjuyoung/.gradle/caches/transforms-3/96de35b371711e8f1c36d2e72445c532/transformed/jetified-tensorflow-lite-support-0.2.0/AndroidManifest.xml:2:1-5:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/kimjuyoung/.gradle/caches/transforms-3/869441006490cfbb2a7c81c8ab9df6fc/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/kimjuyoung/.gradle/caches/transforms-3/ae0ec98dbfcc9dd4d6e64811e3208a33/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.exifinterface:exifinterface:1.3.2] /Users/kimjuyoung/.gradle/caches/transforms-3/f15802089d5f0fddcfe95bffe7284540/transformed/exifinterface-1.3.2/AndroidManifest.xml:17:1-24:12
@@ -78,6 +79,7 @@ MERGED from [androidx.window.extensions.core:core:1.0.0-beta01] /Users/kimjuyoun
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/kimjuyoung/.gradle/caches/transforms-3/b39b6838562d7f14dd687d5913e10903/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
 MERGED from [org.tensorflow:tensorflow-lite-task-base:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/fea249738ec52888ddcce8493047ce27/transformed/jetified-tensorflow-lite-task-base-0.4.0/AndroidManifest.xml:2:1-6:12
 MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/b8eb89513c2ec69b509b74fd3e60a93e/transformed/jetified-tensorflow-lite-support-api-0.4.0/AndroidManifest.xml:2:1-5:12
+MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d85266c0c5413d6ed06ded9ebdf6bb99/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:2:1-12:12
 MERGED from [org.tensorflow:tensorflow-lite-api:2.8.0] /Users/kimjuyoung/.gradle/caches/transforms-3/5097d1ad6a5c23cc07f36adb5fa7f53a/transformed/jetified-tensorflow-lite-api-2.8.0/AndroidManifest.xml:2:1-12:12
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /Users/kimjuyoung/.gradle/caches/transforms-3/806ed9915b53b94214490fd32e868d82/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:2:1-9:12
 INJECTED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml:17:1-64:12
@@ -147,6 +149,8 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/kimjuyoung/.gradle/c
 MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/kimjuyoung/.gradle/caches/transforms-3/3e7a6ca2e570f457106bb7335ae00ef7/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [org.tensorflow:tensorflow-lite-task-base:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/fea249738ec52888ddcce8493047ce27/transformed/jetified-tensorflow-lite-task-base-0.4.0/AndroidManifest.xml:4:4-5:18
 MERGED from [org.tensorflow:tensorflow-lite-task-base:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/fea249738ec52888ddcce8493047ce27/transformed/jetified-tensorflow-lite-task-base-0.4.0/AndroidManifest.xml:4:4-5:18
+MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d85266c0c5413d6ed06ded9ebdf6bb99/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:10:5-20
+MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d85266c0c5413d6ed06ded9ebdf6bb99/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:10:5-20
 MERGED from [org.tensorflow:tensorflow-lite-api:2.8.0] /Users/kimjuyoung/.gradle/caches/transforms-3/5097d1ad6a5c23cc07f36adb5fa7f53a/transformed/jetified-tensorflow-lite-api-2.8.0/AndroidManifest.xml:10:5-20
 MERGED from [org.tensorflow:tensorflow-lite-api:2.8.0] /Users/kimjuyoung/.gradle/caches/transforms-3/5097d1ad6a5c23cc07f36adb5fa7f53a/transformed/jetified-tensorflow-lite-api-2.8.0/AndroidManifest.xml:10:5-20
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /Users/kimjuyoung/.gradle/caches/transforms-3/806ed9915b53b94214490fd32e868d82/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:7:5-20
@@ -321,6 +325,8 @@ MERGED from [org.tensorflow:tensorflow-lite-task-vision:0.4.0] /Users/kimjuyoung
 MERGED from [org.tensorflow:tensorflow-lite-task-vision:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d0069a1c6cc9386a52d14dfee77b5445/transformed/jetified-tensorflow-lite-task-vision-0.4.0/AndroidManifest.xml:5:5-7:41
 MERGED from [org.tensorflow:tensorflow-lite-gpu:2.9.0] /Users/kimjuyoung/.gradle/caches/transforms-3/1fd29f98913ade52b88c0ef4db7f460f/transformed/jetified-tensorflow-lite-gpu-2.9.0/AndroidManifest.xml:7:5-8:41
 MERGED from [org.tensorflow:tensorflow-lite-gpu:2.9.0] /Users/kimjuyoung/.gradle/caches/transforms-3/1fd29f98913ade52b88c0ef4db7f460f/transformed/jetified-tensorflow-lite-gpu-2.9.0/AndroidManifest.xml:7:5-8:41
+MERGED from [org.tensorflow:tensorflow-lite-support:0.2.0] /Users/kimjuyoung/.gradle/caches/transforms-3/96de35b371711e8f1c36d2e72445c532/transformed/jetified-tensorflow-lite-support-0.2.0/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite-support:0.2.0] /Users/kimjuyoung/.gradle/caches/transforms-3/96de35b371711e8f1c36d2e72445c532/transformed/jetified-tensorflow-lite-support-0.2.0/AndroidManifest.xml:4:3-71
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/kimjuyoung/.gradle/caches/transforms-3/869441006490cfbb2a7c81c8ab9df6fc/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/kimjuyoung/.gradle/caches/transforms-3/869441006490cfbb2a7c81c8ab9df6fc/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cardview:cardview:1.0.0] /Users/kimjuyoung/.gradle/caches/transforms-3/ae0ec98dbfcc9dd4d6e64811e3208a33/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
@@ -349,6 +355,8 @@ MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/kimjuyoun
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/kimjuyoung/.gradle/caches/transforms-3/b39b6838562d7f14dd687d5913e10903/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
 MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/b8eb89513c2ec69b509b74fd3e60a93e/transformed/jetified-tensorflow-lite-support-api-0.4.0/AndroidManifest.xml:4:3-71
 MERGED from [org.tensorflow:tensorflow-lite-support-api:0.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/b8eb89513c2ec69b509b74fd3e60a93e/transformed/jetified-tensorflow-lite-support-api-0.4.0/AndroidManifest.xml:4:3-71
+MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d85266c0c5413d6ed06ded9ebdf6bb99/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:7:5-8:41
+MERGED from [org.tensorflow:tensorflow-lite:2.4.0] /Users/kimjuyoung/.gradle/caches/transforms-3/d85266c0c5413d6ed06ded9ebdf6bb99/transformed/jetified-tensorflow-lite-2.4.0/AndroidManifest.xml:7:5-8:41
 MERGED from [org.tensorflow:tensorflow-lite-api:2.8.0] /Users/kimjuyoung/.gradle/caches/transforms-3/5097d1ad6a5c23cc07f36adb5fa7f53a/transformed/jetified-tensorflow-lite-api-2.8.0/AndroidManifest.xml:7:5-8:41
 MERGED from [org.tensorflow:tensorflow-lite-api:2.8.0] /Users/kimjuyoung/.gradle/caches/transforms-3/5097d1ad6a5c23cc07f36adb5fa7f53a/transformed/jetified-tensorflow-lite-api-2.8.0/AndroidManifest.xml:7:5-8:41
 MERGED from [com.google.android.odml:image:1.0.0-beta1] /Users/kimjuyoung/.gradle/caches/transforms-3/806ed9915b53b94214490fd32e868d82/transformed/jetified-image-1.0.0-beta1/AndroidManifest.xml:5:5-44
@@ -362,6 +370,7 @@ INJECTED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/An
 	android:minSdkVersion
 		INJECTED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 		ADDED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
+		MERGED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 		MERGED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 		MERGED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/kimjuyoung/StudioProjects/Try_Angle_Project/app/src/main/AndroidManifest.xml

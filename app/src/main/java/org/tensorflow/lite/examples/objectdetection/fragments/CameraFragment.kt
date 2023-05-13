@@ -1,18 +1,3 @@
-/*
- * Copyright 2022 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *             http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.tensorflow.lite.examples.objectdetection.fragments
 
 //import androidx.camera.core.AspectRatio
@@ -65,11 +50,28 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
+    override fun onObjectDetected(detected: Boolean) {
+        activity?.runOnUiThread {
+            if (detected) {
+                Toast.makeText(requireContext(), "Object Detected", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onObjectCentered(isCentered: Boolean) {
+//        activity?.runOnUiThread {
+//            val message = if (isCentered) {
+//                "Object is centered"
+//            } else {
+//                "Object is not centered"
+//            }
+//            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+//        }
+    }
 
     // 이 메서드를 CameraFragment 클래스에 추가합니다.
     override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
-        // 여기에 원하는 기능을 구현합니다.
-        // 예를 들어, 객체의 중심이 움직인 거리를 로깅하거나 다른 작업을 수행할 수 있습니다.
+        Log.d(tag, "onObjectCenterDelta called with deltaX: $deltaX, deltaY: $deltaY")
     }
 
     // Helper function to compute aspect ratio
@@ -360,14 +362,15 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     // Update UI after objects have been detected. Extracts original image height/width
     // to scale and place bounding boxes properly through OverlayView
     override fun onResults(
-      results: MutableList<Detection>?,
-      inferenceTime: Long,
-      imageHeight: Int,
-      imageWidth: Int
+        results: MutableList<Detection>?,
+        inferenceTime: Long,
+        imageHeight: Int,
+        imageWidth: Int
     ) {
         activity?.runOnUiThread {
+            Log.d(tag, "onResults called with ${results?.size ?: 0} detections")
             fragmentCameraBinding.bottomSheetLayout.inferenceTimeVal.text =
-                            String.format("%d ms", inferenceTime)
+                String.format("%d ms", inferenceTime)
 
             // Pass necessary information to OverlayView for drawing on the canvas
             fragmentCameraBinding.overlay.setResults(
