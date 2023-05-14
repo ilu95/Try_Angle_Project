@@ -30,15 +30,20 @@ public final class FragmentCameraBinding implements ViewBinding {
   public final OverlayView overlay;
 
   @NonNull
+  public final OverlayView overlayView;
+
+  @NonNull
   public final PreviewView viewFinder;
 
   private FragmentCameraBinding(@NonNull CoordinatorLayout rootView,
       @NonNull InfoBottomSheetBinding bottomSheetLayout, @NonNull CoordinatorLayout cameraContainer,
-      @NonNull OverlayView overlay, @NonNull PreviewView viewFinder) {
+      @NonNull OverlayView overlay, @NonNull OverlayView overlayView,
+      @NonNull PreviewView viewFinder) {
     this.rootView = rootView;
     this.bottomSheetLayout = bottomSheetLayout;
     this.cameraContainer = cameraContainer;
     this.overlay = overlay;
+    this.overlayView = overlayView;
     this.viewFinder = viewFinder;
   }
 
@@ -84,6 +89,12 @@ public final class FragmentCameraBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.overlay_view;
+      OverlayView overlayView = ViewBindings.findChildViewById(rootView, id);
+      if (overlayView == null) {
+        break missingId;
+      }
+
       id = R.id.view_finder;
       PreviewView viewFinder = ViewBindings.findChildViewById(rootView, id);
       if (viewFinder == null) {
@@ -91,7 +102,7 @@ public final class FragmentCameraBinding implements ViewBinding {
       }
 
       return new FragmentCameraBinding((CoordinatorLayout) rootView, binding_bottomSheetLayout,
-          cameraContainer, overlay, viewFinder);
+          cameraContainer, overlay, overlayView, viewFinder);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

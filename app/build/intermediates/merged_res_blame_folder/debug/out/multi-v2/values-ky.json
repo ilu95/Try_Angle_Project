@@ -57,7 +57,7 @@
                     }
                 },
                 {
-                    "source": "/Users/kimjuyoung/.gradle/caches/transforms-3/cccdfed6542b319c3d0a571760cb9a18/transformed/core-1.10.0/res/values-ky/values-ky.xml",
+                    "source": "/Users/kimjuyoung/.gradle/caches/transforms-3/01700f3186dcb3887d3039decb599d3e/transformed/core-1.10.1/res/values-ky/values-ky.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

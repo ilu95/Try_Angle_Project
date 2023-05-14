@@ -130,6 +130,17 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
             val left = boundingBox.left * scaleFactor
             val right = boundingBox.right * scaleFactor
 
+            val objectCenterX = (boundingBox.left + boundingBox.right) / 2f * scaleFactor
+            val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f * scaleFactor
+
+            // Check if the object is in cell 5 or 8 (central range)
+            val cellNumber = getCellNumber(objectCenterX, objectCenterY)
+            if (cellNumber == 5 || cellNumber == 8) {
+                boxPaint.color = ContextCompat.getColor(context!!, R.color.centered_object_color) // Change color for centered objects
+            } else {
+                boxPaint.color = ContextCompat.getColor(context!!, R.color.bounding_box_color)
+            }
+
             // Draw bounding box around detected objects
             val drawableRect = RectF(left, top, right, bottom)
             canvas.drawRect(drawableRect, boxPaint)
