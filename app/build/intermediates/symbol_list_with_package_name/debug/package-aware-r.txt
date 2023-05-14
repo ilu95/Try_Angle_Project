@@ -3438,6 +3438,7 @@ id onInterceptTouchReturnSwipe
 id outline
 id outward
 id overlay
+id overlay_view
 id overshoot
 id packed
 id parallax

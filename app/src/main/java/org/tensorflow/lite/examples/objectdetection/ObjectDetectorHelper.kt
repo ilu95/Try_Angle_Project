@@ -316,6 +316,8 @@ class ObjectDetectorHelper(
 
 
     interface DetectorListener {
+        abstract val previewView: Any
+
         fun onError(error: String)
         fun onResults(results: MutableList<Detection>?, inferenceTime: Long, imageHeight: Int, imageWidth: Int)
         fun onObjectCenterDelta(deltaX: Float, deltaY: Float)

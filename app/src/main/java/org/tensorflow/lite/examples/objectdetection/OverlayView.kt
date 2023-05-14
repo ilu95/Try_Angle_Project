@@ -29,7 +29,8 @@ import java.util.LinkedList
 import kotlin.math.max
 import org.tensorflow.lite.task.vision.detector.Detection
 import android.util.Log
-import android.graphics.PointF
+import kotlin.math.pow
+
 
 class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -38,7 +39,13 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
     private var textBackgroundPaint = Paint()
     private var textPaint = Paint()
 
-    private var scaleFactor: Float = 1f
+    private val originalWidth = 640 // 카메라 출력 이미지의 너비
+//    private val originalHeight = 480 // 카메라 출력 이미지의 높이
+
+    var scaleFactor: Float = 1f
+        get() = width / originalWidth.toFloat()
+        private set
+
 
     private var bounds = Rect()
 
@@ -75,15 +82,14 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         }
     }
 
-    private fun calculateDeviationFromCenter(boundingBox: RectF): PointF {
+    fun calculateDeviationFromCenter(boundingBox: RectF): Float {
         val centerX = width / 2f
         val centerY = height * 2 / 3f // Update this line to calculate the center of the 2/3 range
         val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
         val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
 
-        return PointF(centerX - objectCenterX, centerY - objectCenterY)
+        return kotlin.math.sqrt((centerX - objectCenterX).toDouble().pow(2.0) + (centerY - objectCenterY).toDouble().pow(2.0)).toFloat()
     }
-
 
     private fun initPaints() {
         textBackgroundPaint.color = Color.BLACK
@@ -98,6 +104,17 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         boxPaint.strokeWidth = 8F
         boxPaint.style = Paint.Style.STROKE
     }
+
+    // Change 'private' to 'fun'
+    fun getCellNumber(x: Float, y: Float): Int {
+        val cellWidth = width / 3f
+        val cellHeight = height / 3f
+        val cellColumn = (x / cellWidth).toInt()
+        val cellRow = (y / cellHeight).toInt()
+
+        return 3 * cellRow + cellColumn + 1
+    }
+
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
@@ -136,7 +153,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
             // Calculate deviation from center
             val deviation = calculateDeviationFromCenter(drawableRect)
-            Log.d("Deviation", "X: ${deviation.x}, Y: ${deviation.y}")
+
+            Log.d("Deviation", "Deviation: $deviation")
 
             // Draw text for detected object
             canvas.drawText(drawableText, left, top + bounds.height(), textPaint)

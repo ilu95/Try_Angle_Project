@@ -30,11 +30,21 @@ import org.tensorflow.lite.examples.objectdetection.ObjectDetectorHelper
 import org.tensorflow.lite.examples.objectdetection.R
 import org.tensorflow.lite.examples.objectdetection.databinding.FragmentCameraBinding
 import org.tensorflow.lite.task.vision.detector.Detection
+import org.tensorflow.lite.examples.objectdetection.OverlayView
 
 import android.util.DisplayMetrics
 import android.util.Size
+import androidx.camera.view.PreviewView
 
 class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
+
+    override val previewView: Any
+        get() = fragmentCameraBinding.viewFinder
+    companion object {
+        private const val TAG = "CameraFragment"
+    }
+
+    private lateinit var overlayView: OverlayView
 
     private val tag = "ObjectDetection"
 
@@ -46,9 +56,44 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     private lateinit var objectDetectorHelper: ObjectDetectorHelper
     private lateinit var bitmapBuffer: Bitmap
     private var preview: Preview? = null
+
     private var imageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
+
+    // viewFinder를 가져올 수 있도록 public 속성을 추가합니다.
+    lateinit var viewFinder: PreviewView
+
+    private fun onDetectionResult(detectionResults: MutableList<Detection>) {
+        val imageHeight = fragmentCameraBinding.viewFinder.height
+        val imageWidth = fragmentCameraBinding.viewFinder.width
+
+        overlayView.setResults(detectionResults, imageHeight, imageWidth)
+
+        for (result in detectionResults) {
+            val boundingBox = result.boundingBox
+
+            val top = boundingBox.top * overlayView.scaleFactor
+            val bottom = boundingBox.bottom * overlayView.scaleFactor
+            val left = boundingBox.left * overlayView.scaleFactor
+            val right = boundingBox.right * overlayView.scaleFactor
+
+            val objectCenterX = (left + right) / 2f
+            val objectCenterY = (top + bottom) / 2f
+
+            val cellNumber = overlayView.getCellNumber(objectCenterX, objectCenterY)
+
+            if (cellNumber == 5 || cellNumber == 8) {
+                Log.d(TAG, "Good")
+                Toast.makeText(requireContext(), "Good", Toast.LENGTH_SHORT).show()
+            } else {
+                val deviation = overlayView.calculateDeviationFromCenter(boundingBox)
+                Log.d(TAG, "Deviation from center: $deviation")
+                Toast.makeText(requireContext(), "Deviation from center: $deviation", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     override fun onObjectDetected(detected: Boolean) {
         activity?.runOnUiThread {
@@ -118,6 +163,9 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     ): View {
         _fragmentCameraBinding = FragmentCameraBinding.inflate(inflater, container, false)
 
+        // viewFinder를 초기화합니다.
+        viewFinder = fragmentCameraBinding.viewFinder
+
         return fragmentCameraBinding.root
     }
 
@@ -126,6 +174,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        overlayView = view.findViewById(R.id.overlay_view)
         objectDetectorHelper = ObjectDetectorHelper(
             context = requireContext(),
             objectDetectorListener = this)
@@ -381,6 +430,9 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
                 imageHeight,
                 imageWidth
             )
+
+            // 이 부분을 추가하여 onDetectionResult 함수가 호출되도록 합니다.
+            onDetectionResult(results ?: mutableListOf())
 
             // Force a redraw
             fragmentCameraBinding.overlay.invalidate()

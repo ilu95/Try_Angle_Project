@@ -22,6 +22,9 @@ public final class ActivityMainBinding implements ViewBinding {
   private final CoordinatorLayout rootView;
 
   @NonNull
+  public final FragmentContainerView cameraFragment;
+
+  @NonNull
   public final FragmentContainerView fragmentContainer;
 
   @NonNull
@@ -31,9 +34,11 @@ public final class ActivityMainBinding implements ViewBinding {
   public final Toolbar toolbar;
 
   private ActivityMainBinding(@NonNull CoordinatorLayout rootView,
+      @NonNull FragmentContainerView cameraFragment,
       @NonNull FragmentContainerView fragmentContainer, @NonNull ImageView imageView,
       @NonNull Toolbar toolbar) {
     this.rootView = rootView;
+    this.cameraFragment = cameraFragment;
     this.fragmentContainer = fragmentContainer;
     this.imageView = imageView;
     this.toolbar = toolbar;
@@ -66,6 +71,12 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.camera_fragment;
+      FragmentContainerView cameraFragment = ViewBindings.findChildViewById(rootView, id);
+      if (cameraFragment == null) {
+        break missingId;
+      }
+
       id = R.id.fragment_container;
       FragmentContainerView fragmentContainer = ViewBindings.findChildViewById(rootView, id);
       if (fragmentContainer == null) {
@@ -84,8 +95,8 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((CoordinatorLayout) rootView, fragmentContainer, imageView,
-          toolbar);
+      return new ActivityMainBinding((CoordinatorLayout) rootView, cameraFragment,
+          fragmentContainer, imageView, toolbar);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

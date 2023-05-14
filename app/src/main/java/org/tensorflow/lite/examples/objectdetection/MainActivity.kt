@@ -12,8 +12,16 @@ import org.tensorflow.lite.task.vision.detector.Detection
 import kotlin.math.abs
 import android.widget.Toast
 import android.graphics.Bitmap
+import org.tensorflow.lite.examples.objectdetection.fragments.CameraFragment
 
 class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener  {
+
+    // CameraFragment를 저장하는 속성을 추가합니다.
+    private lateinit var cameraFragment: CameraFragment
+    // previewView 속성을 수정하여 CameraFragment의 viewFinder를 반환하도록 변경합니다.
+    override val previewView: Any
+        get() = cameraFragment.viewFinder
+
     private lateinit var objectDetectorHelper: ObjectDetectorHelper
 
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -62,6 +70,9 @@ class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener 
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        // CameraFragment 인스턴스를 가져옵니다.
+        cameraFragment = supportFragmentManager.findFragmentById(R.id.camera_fragment) as CameraFragment
 
         // ObjectDetectorHelper 인스턴스 생성
         objectDetectorHelper = ObjectDetectorHelper(
