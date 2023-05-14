@@ -28,6 +28,8 @@ import androidx.core.content.ContextCompat
 import java.util.LinkedList
 import kotlin.math.max
 import org.tensorflow.lite.task.vision.detector.Detection
+import android.util.Log
+import android.graphics.PointF
 
 class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -52,6 +54,37 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         initPaints()
     }
 
+    private fun drawGrid(canvas: Canvas) {
+        val gridPaint = Paint().apply {
+            color = ContextCompat.getColor(context, R.color.grid_line_color)
+            strokeWidth = 2f
+        }
+
+        // 가로선 그리기
+        val horizontalSpacing = height / 3f
+        for (i in 1..3) {
+            val yPos = i * horizontalSpacing
+            canvas.drawLine(0f, yPos, width.toFloat(), yPos, gridPaint)
+        }
+
+        // 세로선 그리기
+        val verticalSpacing = width / 3f
+        for (i in 1..3) {
+            val xPos = i * verticalSpacing
+            canvas.drawLine(xPos, 0f, xPos, height.toFloat(), gridPaint)
+        }
+    }
+
+    private fun calculateDeviationFromCenter(boundingBox: RectF): PointF {
+        val centerX = width / 2f
+        val centerY = height * 2 / 3f // Update this line to calculate the center of the 2/3 range
+        val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
+        val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
+
+        return PointF(centerX - objectCenterX, centerY - objectCenterY)
+    }
+
+
     private fun initPaints() {
         textBackgroundPaint.color = Color.BLACK
         textBackgroundPaint.style = Paint.Style.FILL
@@ -68,6 +101,9 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
+
+        // 3x3 격자 그리기
+        drawGrid(canvas)
 
         for (result in results) {
             val boundingBox = result.boundingBox
@@ -97,6 +133,10 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
                 top + textHeight + BOUNDING_RECT_TEXT_PADDING,
                 textBackgroundPaint
             )
+
+            // Calculate deviation from center
+            val deviation = calculateDeviationFromCenter(drawableRect)
+            Log.d("Deviation", "X: ${deviation.x}, Y: ${deviation.y}")
 
             // Draw text for detected object
             canvas.drawText(drawableText, left, top + bounds.height(), textPaint)

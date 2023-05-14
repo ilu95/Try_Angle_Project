@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.tensorflow.lite.examples.objectdetection
 
 import android.os.Build
@@ -27,47 +11,34 @@ import org.tensorflow.lite.examples.objectdetection.databinding.ActivityMainBind
 import org.tensorflow.lite.task.vision.detector.Detection
 import kotlin.math.abs
 import android.widget.Toast
+import android.graphics.Bitmap
 
-
-/**
- * Main entry point into our app. This app follows the single-activity pattern, and all
- * functionality is implemented in the form of fragments.
- */
 class MainActivity : AppCompatActivity(), ObjectDetectorHelper.DetectorListener  {
     private lateinit var objectDetectorHelper: ObjectDetectorHelper
 
     private lateinit var activityMainBinding: ActivityMainBinding
 
-//    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
-//        // 여기에서 deltaX, deltaY를 처리하십시오.
-//        Log.d("MainActivity", "Delta X: $deltaX, Delta Y: $deltaY")
-//        // 이동 거리의 임계값을 설정합니다.
-//        val threshold = 0.1f
-//
-//        // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
-//        if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
-//            runOnUiThread {
-//                Toast.makeText(applicationContext, "객체가 크게 이동했습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
-//        Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
-//    }
-override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
-    // 여기에서 deltaX, deltaY를 처리하십시오.
-    Log.d("MainActivity", "onObjectCenterDelta called")
-    // 이동 거리의 임계값을 설정합니다.
-    val threshold = 0.1f
+    override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
+        // 여기에서 deltaX, deltaY를 처리하십시오.
+        Log.d("MainActivity", "onObjectCenterDelta called")
+        // 이동 거리의 임계값을 설정합니다.
+        val threshold = 0.1f
 
-    // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
-    if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
-        val deltaXPercentage = (deltaX * 100).toInt()
-        val deltaYPercentage = (deltaY * 100).toInt()
-        Toast.makeText(applicationContext, "객체가 중앙에서 벗어남: X축: $deltaXPercentage%, Y축: $deltaYPercentage%", Toast.LENGTH_SHORT).show()
+        // deltaX와 deltaY의 절댓값이 임계값보다 큰지 확인합니다.
+        if (abs(deltaX) > threshold || abs(deltaY) > threshold) {
+            val deltaXPercentage = (deltaX * 100).toInt()
+            val deltaYPercentage = (deltaY * 100).toInt()
+            Toast.makeText(applicationContext, "객체가 중앙에서 벗어남: X축: $deltaXPercentage%, Y축: $deltaYPercentage%", Toast.LENGTH_SHORT).show()
+        }
+        // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
+        Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
     }
-    // 예를 들어, 로그를 출력하거나 UI를 업데이트할 수 있습니다.
-    Log.d("ObjectCenterDelta", "Delta X: $deltaX, Delta Y: $deltaY")
-}
+
+    override fun onAnnotatedImage(annotatedImage: Bitmap) {
+        runOnUiThread {
+            activityMainBinding.imageView.setImageBitmap(annotatedImage)
+        }
+    }
 
 
     override fun onObjectDetected(detected: Boolean) {
@@ -119,9 +90,24 @@ override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
         Log.d("MainActivity", "onResults called")
         // 객체가 중앙에서 얼마나 벗어났는지 출력
         results?.firstOrNull()?.let { detection ->
-            val deltaX = (detection.boundingBox.centerX() - (imageWidth / 2)) / imageWidth.toFloat()
-            val deltaY = (detection.boundingBox.centerY() - (imageHeight / 2)) / imageHeight.toFloat()
+            val boundingBox = detection.boundingBox
+            val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
+            val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
 
+            val screenCenterX = imageWidth.toFloat() / 2f
+            val screenCenterY = imageHeight.toFloat() / 2f
+
+            val deltaX = (screenCenterX - objectCenterX) / imageWidth.toFloat()
+            val deltaY = (screenCenterY - objectCenterY) / imageHeight.toFloat()
+
+            val deltaXPercentage = (deltaX * 100).toInt()
+            val deltaYPercentage = (deltaY * 100).toInt()
+
+            Log.d("Test", "Object center: ($objectCenterX, $objectCenterY)")
+            Log.d("Test", "Screen center: ($screenCenterX, $screenCenterY)")
+            Log.d("Test", "Delta: ($deltaX, $deltaY)")
+
+            Log.d("Test", "객체가 중앙에서 벗어남: X축: $deltaXPercentage%, Y축: $deltaYPercentage%")
             // 여기에서 onObjectCenterDelta 메소드를 호출하십시오.
             onObjectCenterDelta(deltaX, deltaY)
         }

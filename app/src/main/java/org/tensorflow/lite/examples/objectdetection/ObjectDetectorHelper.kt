@@ -1,18 +1,3 @@
-/*
- * Copyright 2022 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *             http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.tensorflow.lite.examples.objectdetection
 
 import android.content.Context
@@ -46,6 +31,9 @@ import androidx.camera.core.ImageProxy
 import kotlin.math.abs
 import org.tensorflow.lite.support.image.TensorImage
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 
 object ImageUtils {
     fun imageToNV21(image: Image): ByteArray {
@@ -244,6 +232,19 @@ class ObjectDetectorHelper(
             return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         }
 
+        private fun drawBoundingBox(bitmap: Bitmap, detection: Detection): Bitmap {
+            val newBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+            val canvas = Canvas(newBitmap)
+            val paint = Paint().apply {
+                color = Color.RED
+                strokeWidth = 4f
+                style = Paint.Style.STROKE
+            }
+
+            canvas.drawRect(detection.boundingBox, paint)
+            return newBitmap
+        }
+
         @androidx.camera.core.ExperimentalGetImage
         override fun analyze(imageProxy: ImageProxy) {
             val rotationDegrees = imageProxy.imageInfo.rotationDegrees
@@ -254,8 +255,12 @@ class ObjectDetectorHelper(
             val (results, _, imageSize) = helper.getResults()
             val (imageHeight, imageWidth) = imageSize
 
+            val detected = results?.isNotEmpty() ?: false
+            helper.objectDetectorListener?.onObjectDetected(detected)
+
             results?.firstOrNull()?.let { detection ->
                 val boundingBox = detection.boundingBox
+                val bitmapWithBoundingBox = drawBoundingBox(bitmap, detection)
                 val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
                 val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
 
@@ -267,10 +272,16 @@ class ObjectDetectorHelper(
                 val deltaX = screenCenterX - objectCenterX
                 val deltaY = screenCenterY - objectCenterY
 
-                // 임계값 확인 후 이동해야 하는 값을 전송
+                // Pass the annotated image to the listener
+                helper.objectDetectorListener?.onAnnotatedImage(bitmapWithBoundingBox)
+
+                // 중앙에서 벗어난 정도를 확인하고, 임계값을 초과한 경우에만 onObjectCenterDelta를 호출합니다.
                 if (abs(deltaX) > helper.centerThreshold || abs(deltaY) > helper.centerThreshold) {
                     Log.d("Test", "Calling onObjectCenterDelta: deltaX=$deltaX, deltaY=$deltaY")
                     helper.objectDetectorListener?.onObjectCenterDelta(deltaX, deltaY)
+                } else {
+                    // 객체가 중앙에 위치한 경우, deltaX와 deltaY를 0으로 설정합니다.
+                    helper.objectDetectorListener?.onObjectCenterDelta(0f, 0f)
                 }
             }
 
@@ -310,11 +321,8 @@ class ObjectDetectorHelper(
         fun onObjectCenterDelta(deltaX: Float, deltaY: Float)
         fun onObjectDetected(detected: Boolean) // 이 줄을 추가하세요
         fun onObjectCentered(isCentered: Boolean)
+        fun onAnnotatedImage(annotatedImage: Bitmap)
     }
-
-
-
-
 
     companion object {
         const val DELEGATE_CPU = 0

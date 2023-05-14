@@ -59,19 +59,22 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     }
 
     override fun onObjectCentered(isCentered: Boolean) {
-//        activity?.runOnUiThread {
-//            val message = if (isCentered) {
-//                "Object is centered"
-//            } else {
-//                "Object is not centered"
-//            }
-//            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-//        }
+//        필요한 기능 추가
     }
 
     // 이 메서드를 CameraFragment 클래스에 추가합니다.
     override fun onObjectCenterDelta(deltaX: Float, deltaY: Float) {
         Log.d(tag, "onObjectCenterDelta called with deltaX: $deltaX, deltaY: $deltaY")
+        activity?.runOnUiThread {
+            Toast.makeText(requireContext(), "DeltaX: $deltaX, DeltaY: $deltaY", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    // 이 메서드를 CameraFragment 클래스에 구현합니다.
+    override fun onAnnotatedImage(annotatedImage: Bitmap) {
+        // 필요한 기능 추가
+        Log.d(tag, "Annotated image received")
     }
 
     // Helper function to compute aspect ratio
@@ -297,13 +300,13 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         val metrics = DisplayMetrics().also { fragmentCameraBinding.viewFinder.display.getRealMetrics(it) }
         val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
 
-// Preview
+        // Preview
         preview = Preview.Builder()
             .setTargetResolution(screenAspectRatio)
             .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation)
             .build()
 
-// ImageAnalysis
+        // ImageAnalysis
         imageAnalyzer = ImageAnalysis.Builder()
             .setTargetResolution(screenAspectRatio)
             .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation)
