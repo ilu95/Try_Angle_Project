@@ -43,9 +43,6 @@ public final class InfoBottomSheetBinding implements ViewBinding {
   public final AppCompatSpinner spinnerDelegate;
 
   @NonNull
-  public final AppCompatSpinner spinnerModel;
-
-  @NonNull
   public final AppCompatImageButton threadsMinus;
 
   @NonNull
@@ -67,10 +64,10 @@ public final class InfoBottomSheetBinding implements ViewBinding {
       @NonNull NestedScrollView bottomSheetLayout, @NonNull TextView inferenceTimeLabel,
       @NonNull TextView inferenceTimeVal, @NonNull AppCompatImageButton maxResultsMinus,
       @NonNull AppCompatImageButton maxResultsPlus, @NonNull TextView maxResultsValue,
-      @NonNull AppCompatSpinner spinnerDelegate, @NonNull AppCompatSpinner spinnerModel,
-      @NonNull AppCompatImageButton threadsMinus, @NonNull AppCompatImageButton threadsPlus,
-      @NonNull TextView threadsValue, @NonNull AppCompatImageButton thresholdMinus,
-      @NonNull AppCompatImageButton thresholdPlus, @NonNull TextView thresholdValue) {
+      @NonNull AppCompatSpinner spinnerDelegate, @NonNull AppCompatImageButton threadsMinus,
+      @NonNull AppCompatImageButton threadsPlus, @NonNull TextView threadsValue,
+      @NonNull AppCompatImageButton thresholdMinus, @NonNull AppCompatImageButton thresholdPlus,
+      @NonNull TextView thresholdValue) {
     this.rootView = rootView;
     this.bottomSheetLayout = bottomSheetLayout;
     this.inferenceTimeLabel = inferenceTimeLabel;
@@ -79,7 +76,6 @@ public final class InfoBottomSheetBinding implements ViewBinding {
     this.maxResultsPlus = maxResultsPlus;
     this.maxResultsValue = maxResultsValue;
     this.spinnerDelegate = spinnerDelegate;
-    this.spinnerModel = spinnerModel;
     this.threadsMinus = threadsMinus;
     this.threadsPlus = threadsPlus;
     this.threadsValue = threadsValue;
@@ -153,12 +149,6 @@ public final class InfoBottomSheetBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.spinner_model;
-      AppCompatSpinner spinnerModel = ViewBindings.findChildViewById(rootView, id);
-      if (spinnerModel == null) {
-        break missingId;
-      }
-
       id = R.id.threads_minus;
       AppCompatImageButton threadsMinus = ViewBindings.findChildViewById(rootView, id);
       if (threadsMinus == null) {
@@ -197,8 +187,8 @@ public final class InfoBottomSheetBinding implements ViewBinding {
 
       return new InfoBottomSheetBinding((NestedScrollView) rootView, bottomSheetLayout,
           inferenceTimeLabel, inferenceTimeVal, maxResultsMinus, maxResultsPlus, maxResultsValue,
-          spinnerDelegate, spinnerModel, threadsMinus, threadsPlus, threadsValue, thresholdMinus,
-          thresholdPlus, thresholdValue);
+          spinnerDelegate, threadsMinus, threadsPlus, threadsValue, thresholdMinus, thresholdPlus,
+          thresholdValue);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

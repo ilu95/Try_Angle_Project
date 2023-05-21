@@ -1456,6 +1456,7 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color golden_ratio_line_color
 color grid_line_color
 color highlighted_text_material_dark
 color highlighted_text_material_light
@@ -3528,7 +3529,6 @@ id south
 id spacer
 id special_effects_controller_view_tag
 id spinner_delegate
-id spinner_model
 id spline
 id split_action_bar
 id spread

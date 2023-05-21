@@ -29,7 +29,6 @@ import java.util.LinkedList
 import kotlin.math.max
 import org.tensorflow.lite.task.vision.detector.Detection
 import android.util.Log
-import kotlin.math.pow
 
 
 class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -82,14 +81,36 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         }
     }
 
-    fun calculateDeviationFromCenter(boundingBox: RectF): Float {
-        val centerX = width / 2f
-        val centerY = height * 2 / 3f // Update this line to calculate the center of the 2/3 range
-        val objectCenterX = (boundingBox.left + boundingBox.right) / 2f
-        val objectCenterY = (boundingBox.top + boundingBox.bottom) / 2f
+    private val thirdWidth = width / 3f
+    private val thirdHeight = height / 3f
 
-        return kotlin.math.sqrt((centerX - objectCenterX).toDouble().pow(2.0) + (centerY - objectCenterY).toDouble().pow(2.0)).toFloat()
+    // 이 함수가 bounding box가 중심 범위에 완전히 들어가는지 계산하도록 수정됩니다.
+    fun calculateDeviationFromCenter(boundingBox: RectF): String {
+        val centerX = width / 2f
+        val centerY = height / 2f
+
+        val leftLimit = centerX - thirdWidth
+        val rightLimit = centerX + thirdWidth
+        val topLimit = centerY - thirdHeight
+        val bottomLimit = centerY + thirdHeight
+
+        return if (boundingBox.left >= leftLimit && boundingBox.right <= rightLimit &&
+            boundingBox.top >= topLimit && boundingBox.bottom <= bottomLimit) {
+            "Good" // If object is fully inside the center range, output "Good"
+        } else {
+            val xDeviationRight = maxOf(boundingBox.right - rightLimit, 0f)
+            val xDeviationLeft = maxOf(leftLimit - boundingBox.left, 0f)
+            val yDeviationTop = maxOf(topLimit - boundingBox.top, 0f)
+            val yDeviationBottom = maxOf(boundingBox.bottom - bottomLimit, 0f)
+
+            "Move ${xDeviationRight}px to the right, ${xDeviationLeft}px to the left, ${yDeviationTop}px up, ${yDeviationBottom}px down"
+        }
     }
+
+
+
+
+
 
     private fun initPaints() {
         textBackgroundPaint.color = Color.BLACK
@@ -115,9 +136,50 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         return 3 * cellRow + cellColumn + 1
     }
 
+    private fun drawGoldenRatioGrid(canvas: Canvas) {
+        val goldenRatioPaint = Paint().apply {
+            color = ContextCompat.getColor(context, R.color.golden_ratio_line_color)
+            strokeWidth = 2f
+        }
+
+        // 황금 비율 상수
+        val phi = 0.618034f // Float type
+
+        // 우측 하단
+        val rightBottomHorizontal = width * phi
+        val rightBottomVertical = height * phi
+
+        // 우측 상단
+        val rightTopHorizontal = width * phi
+        val rightTopVertical = height * (1 - phi)
+
+        // 좌측 상단
+        val leftTopHorizontal = width * (1 - phi)
+        val leftTopVertical = height * (1 - phi)
+
+        // 좌측 하단
+        val leftBottomHorizontal = width * (1 - phi)
+        val leftBottomVertical = height * phi
+
+        // 가로선 그리기
+        canvas.drawLine(0f, rightBottomVertical, width.toFloat(), rightBottomVertical, goldenRatioPaint) // 우측 하단
+        canvas.drawLine(0f, rightTopVertical, width.toFloat(), rightTopVertical, goldenRatioPaint) // 우측 상단
+        canvas.drawLine(0f, leftTopVertical, width.toFloat(), leftTopVertical, goldenRatioPaint) // 좌측 상단
+        canvas.drawLine(0f, leftBottomVertical, width.toFloat(), leftBottomVertical, goldenRatioPaint) // 좌측 하단
+
+        // 세로선 그리기
+        canvas.drawLine(rightBottomHorizontal, 0f, rightBottomHorizontal, height.toFloat(), goldenRatioPaint) // 우측 하단
+        canvas.drawLine(rightTopHorizontal, 0f, rightTopHorizontal, height.toFloat(), goldenRatioPaint) // 우측 상단
+        canvas.drawLine(leftTopHorizontal, 0f, leftTopHorizontal, height.toFloat(), goldenRatioPaint) // 좌측 상단
+        canvas.drawLine(leftBottomHorizontal, 0f, leftBottomHorizontal, height.toFloat(), goldenRatioPaint) // 좌측 하단
+    }
+
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
+
+        // Draw the golden ratio lines
+        drawGoldenRatioGrid(canvas)
 
         // 3x3 격자 그리기
         drawGrid(canvas)
@@ -164,8 +226,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
             // Calculate deviation from center
             val deviation = calculateDeviationFromCenter(drawableRect)
-
-            Log.d("Deviation", "Deviation: $deviation")
+            Log.d("Deviation", deviation) // Log the deviation
 
             // Draw text for detected object
             canvas.drawText(drawableText, left, top + bounds.height(), textPaint)
